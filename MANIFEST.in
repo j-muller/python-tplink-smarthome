@@ -1,0 +1,2 @@
+# Include requirements in package
+recursive-include requirements *.txt

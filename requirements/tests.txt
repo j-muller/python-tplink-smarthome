@@ -1,0 +1,12 @@
+pytest==3.2.3
+pytest-catchlog==1.2.2
+pytest-cov==2.5.1
+
+pylint==1.8.1
+
+xenon==0.5.3
+
+pydocstyle==2.1.1
+pycodestyle==2.3.1
+
+cobertura-clover-transform==1.1.4

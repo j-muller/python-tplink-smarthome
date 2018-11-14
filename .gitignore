@@ -1,0 +1,42 @@
+# Vim
+.*.swp
+.swp
+
+# Python
+*.pyc
+.eggs/
+*.egg-info
+.cache
+
+# PyCharm
+.idea
+
+# Local
+.env
+*.h5
+ci_env
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+*.html
+
+# GitEye
+.project
+
+# Dist
+dist/
+
+# Coverage
+.coverage
+htmlcov/
+clover.xml
+cov.xml
+
+# Docs
+doc/_build
+
+junit.xml
+
+# sqlite
+*.sqlite*

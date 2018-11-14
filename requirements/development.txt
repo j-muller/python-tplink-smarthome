@@ -1,0 +1,5 @@
+ipython==6.2.1
+pdbpp==0.9.1
+-r tests.txt
+-r documentation.txt
+-e .
