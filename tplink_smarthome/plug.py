@@ -5,12 +5,12 @@ class TPLinkSmartPlug(TPLinkSmartDevice):
     """An object to represent a physical smart plug.
     """
 
-    def on(self):
+    def turn_on(self):
         """Turn on a smart plug.
         """
         self.send({'system': {'set_relay_state': {'state': 1}}})
 
-    def off(self):
+    def turn_off(self):
         """Turn off a smart plug.
         """
         self.send({'system': {'set_relay_state': {'state': 0}}})

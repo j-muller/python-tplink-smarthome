@@ -10,6 +10,7 @@ class TPLinkSmartDevice:
 
     You may not have to instantiate that object directly.
     """
+
     _DEFAULT_PORT = 9999
 
     def __init__(self,

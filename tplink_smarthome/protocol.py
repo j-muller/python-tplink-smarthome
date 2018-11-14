@@ -1,5 +1,4 @@
 import struct
-import io
 
 # XOR starting key
 _KEY = 171
