@@ -9,11 +9,13 @@ class TPLinkSmartPlug(TPLinkSmartDevice):
         """Turn on a smart plug.
         """
         self.send({'system': {'set_relay_state': {'state': 1}}})
+        return self.recv()
 
     def turn_off(self):
         """Turn off a smart plug.
         """
         self.send({'system': {'set_relay_state': {'state': 0}}})
+        return self.recv()
 
     def reboot(self):
         """Reboot a smart plug.

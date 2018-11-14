@@ -11,7 +11,6 @@ END_TARGET = @printf "\033[32;1mOK\033[0m\n"
 PYTEST_OPTS ?=
 
 ENV_RUN =
-SCL_COLLECTIONS = rh-python35
 
 .PHONY: help check_code_style check_doc_style check_pylint check_xenon \
         check_lint check_test check distclean clean doc dist \
@@ -78,27 +77,17 @@ dist: ## Create a source distribution
 	$(call END_TARGET)
 
 ci_env: ## Build a CI environment
-	scl enable $(SCL_COLLECTIONS) -- \
-		virtualenv-3.5 --system-site-packages ${CURDIR}/ci_env
-	scl enable $(SCL_COLLECTIONS) -- \
-		${CURDIR}/ci_env/bin/pip install -U pip setuptools wheel
-	scl enable $(SCL_COLLECTIONS) -- \
-		${CURDIR}/ci_env/bin/pip install -r ${CURDIR}/requirements/tests.txt
-	scl enable $(SCL_COLLECTIONS) -- \
-		${CURDIR}/ci_env/bin/pip install -r ${CURDIR}/requirements/documentation.txt
-	scl enable $(SCL_COLLECTIONS) -- \
-		${CURDIR}/ci_env/bin/pip install -e ${CURDIR}
-	scl enable $(SCL_COLLECTIONS) -- ${CURDIR}/ci_env/bin/pip list
+	virtualenv ${CURDIR}/ci_env
+	${CURDIR}/ci_env/bin/pip install -U pip
+	${CURDIR}/ci_env/bin/pip install -r ${CURDIR}/requirements/development.txt
+	${CURDIR}/ci_env/bin/pip install -e ${CURDIR}
 
 ci_check: ci_env ## Run all checks in the CI environment
-	scl enable $(SCL_COLLECTIONS) -- \
-		bash -c "source ${CURDIR}/ci_env/bin/activate && \
+	bash -c "source ${CURDIR}/ci_env/bin/activate && \
 		$(MAKE) -f Makefile check \
 		PYTEST_OPTS='-vv --junit-xml=junit.xml --cov $(PACKAGE_NAME) --cov-report xml:cov.xml'"
-	scl enable $(SCL_COLLECTIONS) -- \
-		bash -c "source ${CURDIR}/ci_env/bin/activate && \
-			cobertura-clover-transform ${CURDIR}/cov.xml -o ${CURDIR}/clover.xml"
+	bash -c "source ${CURDIR}/ci_env/bin/activate && \
+		cobertura-clover-transform ${CURDIR}/cov.xml -o ${CURDIR}/clover.xml"
 
 ci_doc: ci_env ## Build the documentation in the CI environment
-	scl enable $(SCL_COLLECTIONS) -- \
-		bash -c "source ${CURDIR}/ci_env/bin/activate && $(MAKE) -f Makefile doc"
+	bash -c "source ${CURDIR}/ci_env/bin/activate && $(MAKE) -f Makefile doc"

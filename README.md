@@ -1,2 +1,0 @@
-TP-Link Smart Home
-==================
