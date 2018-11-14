@@ -1,6 +1,7 @@
 pytest==3.2.3
 pytest-catchlog==1.2.2
 pytest-cov==2.5.1
+pytest-mock==1.10.0
 
 pylint==1.8.1
 
