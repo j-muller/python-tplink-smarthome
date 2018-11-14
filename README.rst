@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/j-muller/python-tplink-smarthome.svg?branch=master
+    :target: https://travis-ci.org/j-muller/python-tplink-smarthome
+
 TP-Link Smart Home
 ------------------
 
