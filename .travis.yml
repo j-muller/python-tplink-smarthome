@@ -3,3 +3,5 @@ python:
   - "3.5"
 script:
   - make ci_check
+after_success:
+  - codecov
