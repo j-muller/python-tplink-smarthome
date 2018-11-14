@@ -11,12 +11,9 @@ class TPLinkSmartDevice:
     You may not have to instantiate that object directly.
     """
 
-    _DEFAULT_PORT = 9999
+    DEFAULT_PORT = 9999
 
-    def __init__(self,
-                 host,
-                 port=_DEFAULT_PORT,
-                 connect=True):
+    def __init__(self, host, port=DEFAULT_PORT, connect=True):
         """Initialize a new smart device object.
 
         :param host: `string` host to connect to.
@@ -43,6 +40,14 @@ class TPLinkSmartDevice:
         """Return the smart device port.
         """
         return self.__port
+
+    @property
+    def socket(self):
+        """Return the socket used to connect to the device.
+
+        Use this property with caution.
+        """
+        return self.__socket
 
     def connect(self):
         """Establish a connection to the smart device.
