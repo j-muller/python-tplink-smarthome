@@ -22,9 +22,11 @@ setup(
     name=PROJECT_NAME,
     version=VERSION,
     description='A package to communicate with TP-Link smart devices.',
+    long_description=read('README.rst'),
+    long_description_content_type='text/x-rst',
     author='Jeffrey Muller',
     author_email='jeffrey.muller92@gmail.com',
-    url='',
+    url='https://github.com/j-muller/python-tplink-smarthome',
     packages=find_packages(exclude=['tests']),
     install_requires=[
     ],
