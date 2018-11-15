@@ -62,7 +62,7 @@ distclean: clean ## Remove *.egg-info and apply clean
 clean: ## Remove temporary and build files
 	$(call START_TARGET,Cleaning)
 	@find . -type f -name '*.pyc' -delete
-	@rm -rf dist/* .cache .eggs
+	@rm -rf dist/ .cache .eggs
 	@rm -rf htmlcov .coverage
 	@rm -rf doc/source/api
 	@$(ENV_RUN) make -C doc clean
@@ -70,10 +70,8 @@ clean: ## Remove temporary and build files
 
 dist: ## Create a source distribution
 	$(call START_TARGET,Creating distribution)
-	@$(ENV_RUN) python setup.py --quiet sdist --dist-dir _tmp_dist
 	@mkdir -p dist
-	@mv _tmp_dist/*.tar.gz dist/$(PROJECT_NAME)-$$(git describe --always).tar.gz
-	@rm -rf _tmp_dist
+	@$(ENV_RUN) python setup.py --quiet sdist bdist_wheel --dist-dir dist
 	$(call END_TARGET)
 
 ci_env: ## Build a CI environment
