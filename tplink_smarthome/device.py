@@ -73,6 +73,9 @@ class TPLinkSmartDevice:
         if isinstance(command, dict):
             command = json.dumps(command)
 
+        if self.__socket is None:
+            self.connect()
+
         self.__socket.send(encrypt(command))
 
     def recv(self):
