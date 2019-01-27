@@ -13,21 +13,35 @@ class TPLinkSmartDevice:
 
     DEFAULT_PORT = 9999
 
-    def __init__(self, host, port=DEFAULT_PORT, connect=True):
+    def __init__(self, host, port=DEFAULT_PORT, timeout=10, connect=False):
         """Initialize a new smart device object.
 
         :param host: `string` host to connect to.
         :param port: `int` port to connect to (default: 9999).
+        :param timeout: `int` timeout used for connect/read/write on the socket
+                        (in seconds, default: 10).
         :param connect: `bool` whether you want to connect to the plug on
-                        instantiation of the class.
+                        instantiation of the class (default: False).
         """
         self.__host = host
         self.__port = port
+        self.__timeout = timeout
 
         self.__socket = None
 
         if connect:
             self.connect()
+
+    def __enter__(self):
+        """Can be use as a context manager.
+        """
+        self.connect()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Close the connection.
+        """
+        self.close()
 
     @property
     def host(self):
@@ -52,8 +66,8 @@ class TPLinkSmartDevice:
     def connect(self):
         """Establish a connection to the smart device.
         """
-        self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.__socket.connect((self.__host, self.__port))
+        self.__socket = socket.create_connection(
+            (self.__host, self.__port), self.__timeout)
 
     def close(self):
         """Close the connection to the smart device.
@@ -73,23 +87,26 @@ class TPLinkSmartDevice:
         if isinstance(command, dict):
             command = json.dumps(command)
 
-        if self.__socket is None:
-            self.connect()
-
         self.__socket.send(encrypt(command))
 
     def recv(self):
         """Wait for data coming from the smart device.
         """
         buffer = bytes()
+        msg_length = -1
 
         # The length of each message is stored in the first 4 bytes.
         while True:
             chunk = self.__socket.recv(4096)
-            length, *_ = struct.unpack('>I', chunk[0:4])
+            if not chunk:
+                continue
+
+            if msg_length < 0:
+                msg_length, *_ = struct.unpack('>I', chunk[0:4])
+
             buffer += chunk
 
-            if len(buffer) >= length + 4 or not chunk:
+            if (msg_length > 0 and len(buffer) >= msg_length + 4) or not chunk:
                 break
 
         return json.loads(decrypt(buffer[4:]))
