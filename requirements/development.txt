@@ -1,4 +1,4 @@
-ipython==6.2.1
+ipython==8.10.0
 pdbpp==0.9.1
 -r tests.txt
 -r documentation.txt
